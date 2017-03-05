@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#
+#  Captures flake8 in files before commits.
+#
+DEFAULT_IFS=$IFS
+FILES_PATTERN='\.py(\..+)?$'
+IFS=$'\n'
+FILES=$(git diff --cached --name-only | grep -E $FILES_PATTERN)
+for found in $FILES; do
+    flake8 $found
+done
+IFS=$DEFAULT_IFS
+FOUND=$(echo $FILES | xargs flake8)
+ERROR_MESSAGE='COMMIT REJECTED Found flake8 violations. Please fix them before committing'
+[[ -z $FOUND ]] && exit 0 || echo $ERROR_MESSAGE && exit 1

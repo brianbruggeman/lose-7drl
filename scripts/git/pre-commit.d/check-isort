@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#
+#  Captures isort in files before commits.
+#
+DEFAULT_IFS=$IFS
+FILES_PATTERN='\.py(\..+)?$'
+IFS=$'\n'
+FILES=$(git diff --cached --name-only | grep -E $FILES_PATTERN)
+for found in $FILES; do
+    isort -c $found
+done
+IFS=$DEFAULT_IFS
+FOUND=$(echo $FILES | xargs isort -c)
+ERROR_MESSAGE='COMMIT REJECTED Found isort violations. Please fix them before committing'
+[[ -z $FOUND ]] && exit 0 || echo $ERROR_MESSAGE && exit 1

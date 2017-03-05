@@ -1,0 +1,116 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.a
+*.dylib
+*.o
+*.so
+*.sw[pdo]
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+.hypothesis/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+
+# Sphinx documentation
+docs/_build/
+docs/reports
+
+# PyBuilder
+target/
+
+# IDE project prefs etc.
+*.sublime-project
+*.sublime-workspace
+.idea/
+sftp-config.json
+.exclude/
+
+# virtual envionment
+venv-samba_data_processing/
+
+# Luigi custom configuration
+luigi.cfg
+
+# Parquet output files
+*.parquet
+
+# Apache Derby database created when using Apache Hive
+metastore_db/
+
+# Emacs temporary
+.#*
+\#*#
+
+# ipython
+*.ipynb*
+
+# log files
+*log.txt
+
+#Vagrant File
+.vagrant/
+
+# Miscellaneous
+*.idea
+*~
+\#*
+.project
+.DS_Store
+.vagrant
+.cache
+.coverage
+
+# Ansible
+*.retry
+
+device_graph.egg-info
+
+# Sphinx
+docs/_build
+docs/coverage
+docs/reports
