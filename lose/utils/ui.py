@@ -24,7 +24,7 @@ def create_windows(width=640, height=480):
     for index, path_name in enumerate(__name__.split('.')):
         if index:
             package_path = os.path.dirname(package_path)
-    font_filepath = os.path.join(package_path, 'data', 'assets', 'terminal.png')
+    font_filepath = os.path.join(package_path, 'data', 'assets', 'game-font.png')
     libtcod.console_set_custom_font(font_filepath, font_bits)
 
     windows = {
