@@ -8,4 +8,3 @@ def runner(docstring=None, cli_arguments=None):
         docstring(str): Basic docstring for running the game
         cli_arguments(str): Basic command-line string
     """
-

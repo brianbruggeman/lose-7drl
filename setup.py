@@ -29,7 +29,7 @@ def setup_project():
     package_requires = [
         'colorama',
         'docopt',
-        'libtcod',
+        'libtcod-cffi',
         'pygments',
         'pyyaml',
     ]

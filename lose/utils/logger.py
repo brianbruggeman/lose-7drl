@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import division, print_function, absolute_import, unicode_literals
 
-import os
-import sys
 import json
 import logging
 import datetime
@@ -136,8 +134,8 @@ class CustomFormatter(logging.Formatter):
         logging.WARNING: ' ? ',
         logging.INFO: ' - ',
         logging.DEBUG: ' . ',
-        TRACE: ' '*3,
-        ALL: ' '*3,
+        TRACE: ' ' * 3,
+        ALL: ' ' * 3,
     }
 
     def highlight_message(self, record):
@@ -174,7 +172,6 @@ class CustomFormatter(logging.Formatter):
         template = prefix + ' {msg}' + colorama.Fore.RESET + colorama.Style.RESET_ALL
         new_msg = '\n'.join(template.format(msg=m) for m in dmsg.split('\n'))
         new_msg = new_msg.rstrip('\n')
-        import pdb; pdb.set_trace()
         return new_msg
 
     def update_message_for_objects(self, msg):

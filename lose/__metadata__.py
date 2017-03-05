@@ -2,8 +2,7 @@
 from __future__ import division, print_function, absolute_import, unicode_literals
 
 __all__ = (
-    '__project__', '__description__', '__versionstr__', '__author__',
-    '__author_email__', '__maintainer__', '__maintainer_email__',
+    '__project__', '__description__', '__versionstr__',
     '__copyright_years__', '__license__', '__url__', '__version__',
     '__classifiers__', '__keywords__', 'package_metadata',
 )

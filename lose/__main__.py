@@ -14,6 +14,7 @@ Options:
     -v --verbose         Increase spam output
 """
 
+
 def lose():
     from sys import argv
     from lose import runner
