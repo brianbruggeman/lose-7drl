@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Provides a module level interface for running the game
 
-Usage: lose [options]
+Usage: lose [(-v ...)] [options]
 
 Options:
     -w --width WIDTH     Set main window width

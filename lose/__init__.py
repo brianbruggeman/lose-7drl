@@ -39,12 +39,14 @@ def runner(docstring=None, cli_arguments=None):
     """
     version_string = f"LOSE {version} Land of Software Engineering [7drl 2017]"
     options = docopt(docstring, version=version_string, argv=cli_arguments)
-    if options.get('--verbose'):
+    if options.get('--verbose') > 1:
+        logger = get_logger('lose', 'TRACE')
+    elif options.get('--verbose') > 0:
         logger = get_logger('lose', 'DEBUG')
     else:
         logger = get_logger('lose', 'INFO')
 
     game_state = initialize_game()
     game_state['logger'] = logger
-    logger.info({'game_state': game_state})
+    logger.debug({'game_state': game_state})
     main_menu(game_state)
