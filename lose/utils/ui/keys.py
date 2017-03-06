@@ -7,6 +7,9 @@ from ..logger import get_logger
 logger = get_logger(__name__)
 
 
+__all__ = ['handle_keys']
+
+
 def handle_keys(key_mapping):
     key = libtcod.console_check_for_keypress()
     if key.vk in key_mapping.get('fullscreen'):

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Provides a module level interface for running the game
 
-Usage: {file} [-v...] [options]
+Usage: lose [options]
 
 Options:
     -w --width WIDTH     Set main window width
@@ -16,12 +16,10 @@ Options:
 
 
 def lose():
-    from sys import argv
     from lose import runner
 
-    docstring = __doc__.format(file='lose')
-
-    runner(docstring=docstring, cli_arguments=argv)
+    docstring = __doc__
+    runner(docstring=docstring, cli_arguments=None)
 
 
 if __name__ == '__main__':

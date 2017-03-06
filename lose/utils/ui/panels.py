@@ -7,6 +7,9 @@ from ..logger import get_logger
 logger = get_logger(__name__)
 
 
+__all__ = ['Panel']
+
+
 class Panel(object):
     """Creates a panel on the screen.
 
