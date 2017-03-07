@@ -249,24 +249,47 @@ def get_package_requirements(package_requires, links=[], required=None):
     return requirements, links
 
 
-def get_package_distribution_options():
+def get_package_distribution_options(metadata):
     """Captures package distribution options for py2app
 
     For a list of options, see Apple's Runtime Configuration Guideline:
 
         https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPRuntimeConfig/000-Introduction/introduction.html
     """
+    project_name = metadata['project']
+    version = metadata['versionstr']
+    copyright_year = metadata['copyright_years']
+    author = metadata['author']
+    description = metadata['description']
+    repo_path = os.path.dirname(os.path.abspath(__file__))
+    asset_path = os.path.join(f'{project_name}', 'data', 'assets')
     options = {'py2app': {
-        # 'CFBundleIdentifier': 'org.7drl.bix.lose',
-        # 'LSBackgroundOnly': True,
-        # 'LSUIElement': True,
+        'bdist_base': os.path.join(f'{repo_path}', 'build'),
+        'dist_dir': os.path.join(f'{repo_path}', 'dist'),
+        'plist': {
+            'CFBundleName': f'{project_name}',
+            'CFBundleDisplayName': f'{project_name}',
+            'CFBundleGetInfoString': f'{description}',
+            'CFBundleIdentifier': f"org.7drl.{author}.osx.{project_name}",
+            'CFBundleVersion': f"{version}",
+            'CFBundleShortVersionString': f"{version}",
+            'NSHumanReadableCopyright': f"Copyright © {copyright_year}, {author}, All Rights Reserved"
+        },
+        'argv_emulation': True,
+        'iconfile': os.path.join(asset_path, 'game-icon.ico'),
     }}
     return options
 
 
-def get_package_distribution_data_files():
+def get_package_distribution_data_files(metadata):
     """Captures package distribution data files for py2app"""
     data_files = []
+    project_name = metadata['project']
+    data_path = os.path.join(f'{project_name}', 'data')
+    for root, folders, files in os.walk(data_path):
+        for filename in files:
+            filepath = os.path.join(root, filename)
+            data_files.append(filepath)
     return data_files
 
 
@@ -304,14 +327,13 @@ def main():
     metadata = get_package_metadata()
     package_requires, links = setup_project()
     requirements, links = get_package_requirements(package_requires=package_requires, links=links)
-    package_distribution_options = get_package_distribution_options()
-    package_distribution_data_files = get_package_distribution_data_files()
+    package_distribution_options = get_package_distribution_options(metadata=metadata)
+    package_distribution_data_files = get_package_distribution_data_files(metadata=metadata)
     project_name = metadata['project']
     classifiers = metadata.get('classifiers')
     extras = {k: v for k, v in requirements.items() if k != 'requirements'}
     year = metadata.get('copyright_years') or datetime.datetime.now().year
     lic = metadata.get('license') or 'Copyright {year} - all rights reserved'.format(year=year)
-
     # Run setup
     setup(
         # Package metadata information
@@ -344,7 +366,7 @@ def main():
         # darwin - py2app
         options=package_distribution_options,
         data_files=package_distribution_data_files,
-        app=[project_name.upper() + '.py'],
+        app=['run-lose.py'],
     )
 
 

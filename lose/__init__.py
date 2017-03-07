@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
 
-import libtcodpy as libtcod
 from docopt import docopt
 
-from .utils import *  # noqa
+from .utils import get_logger, main_menu  # noqa
 from .__metadata__ import __versionstr__ as version
 
 
@@ -21,13 +20,6 @@ def initialize_game():
         'package_path': os.path.dirname(__file__),
     }
     return game_state
-
-
-def game_menu(game_state):
-    """Creates the initial game menu"""
-    panel = Panel()
-
-    header_height = libtcod.console_get_height_rect(panel.parent, 0, 0, width, height, header)
 
 
 def runner(docstring=None, cli_arguments=None):

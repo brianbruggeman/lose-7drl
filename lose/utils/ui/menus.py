@@ -11,29 +11,26 @@ logger = get_logger(__name__)
 __all__ = ['main_menu', 'menu', 'msg_box']
 
 
+def play_game(game_state):
+    map_path = 'level.map'
+    dungeon_map = load_map(game_state, map_path)
+
+
 def main_menu(game_state):
     game_state = create_windows(game_state)
 
+    # Get game state constants
     SCREEN_WIDTH = game_state['SCREEN_WIDTH']
     SCREEN_HEIGHT = game_state['SCREEN_HEIGHT']
-    MAP_WIDTH = game_state['MAP_WIDTH']
-    MAP_HEIGHT = game_state['MAP_HEIGHT']
-    LIMIT_FPS = game_state['LIMIT_FPS']
-    PANEL_HEIGHT = game_state['PANEL_HEIGHT']
     package_path = game_state['package_path']
 
+    # Setup Font
     font_filename = 'game-font.png'
-
     font_path = os.path.join(package_path, 'data', 'assets', font_filename)
-    # font_bits = libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_ASCII_INCOL
-    # font_bits = libtcod.FONT_LAYOUT_ASCII_INCOL
-    font_bits = libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_ASCII_INROW
+    font_bits = libtcod.FONT_LAYOUT_ASCII_INROW
     libtcod.console_set_custom_font(font_path, flags=font_bits, nb_char_horiz=0, nb_char_vertic=0)
-    libtcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, 'LOSE', False)
-    libtcod.sys_set_fps(LIMIT_FPS)
-    con = libtcod.console_new(MAP_WIDTH, MAP_HEIGHT)
-    panel = libtcod.console_new(SCREEN_WIDTH, PANEL_HEIGHT)
 
+    # Setup Menu
     img_filename = 'menu-background.png'
     img_filepath = os.path.join(package_path, 'data', 'assets', img_filename)
     img = libtcod.image_load(img_filepath)
@@ -45,9 +42,9 @@ def main_menu(game_state):
         # show the game's title, and some credits!
         libtcod.console_set_default_foreground(0, libtcod.light_yellow)
         libtcod.console_set_default_background(0, libtcod.black)
-        libtcod.console_print_ex(0, SCREEN_WIDTH//2, SCREEN_HEIGHT//2-19, libtcod.BKGND_SCREEN, libtcod.CENTER,
+        libtcod.console_print_ex(0, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 19, libtcod.BKGND_SCREEN, libtcod.CENTER,
                                  'LOSE: Land of Software Engineering')
-        libtcod.console_print_ex(0, SCREEN_WIDTH//2, SCREEN_HEIGHT-2, libtcod.BKGND_SCREEN, libtcod.CENTER,
+        libtcod.console_print_ex(0, SCREEN_WIDTH // 2, SCREEN_HEIGHT - 2, libtcod.BKGND_SCREEN, libtcod.CENTER,
                                  'By Bix')
 
         # show options and wait for the player's choice
@@ -56,15 +53,20 @@ def main_menu(game_state):
             'o': 'Options',
             'q': 'Quit',
         }
-        choice = menu('', options, 24, game_state)
+        choice = menu('Game Menu\n\n', options, 24, game_state)
 
         if choice == 'p':  # new game
-            msg_box(text='Choice is 0.\nNew Game starting.\n', con=con, width=24)
+            play_game(game_state)
             continue
-            # new_game()
-            # play_game()
         elif choice == 'o':  # options
-            msg_box(text='\n Choice is 1: Setting up options.\n', con=con, width=24)
+            game_options = {
+                'K': 'Keyboard Bindings',
+                'F': 'Font',
+            }
+            while True:
+                game_option_choice = menu('Game Options', game_options, 24, game_state)
+                if game_option_choice in ['q', None]:  # quit
+                    break
             continue
         elif choice in ['q', None]:  # quit
             break
@@ -93,7 +95,6 @@ def menu(header, options, width, game_state):
 
     # print all the options
     y = header_height
-    letter_index = ord('a')
     for opt_index, opt in enumerate(options.items()):
         option_key, option_text = opt
         text = f'{option_key}: {option_text}'
