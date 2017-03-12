@@ -52,9 +52,9 @@ Gameplay
 
 Movement keys:
 
-   up: up arrow
-   down: down arrow
-   left: left arrow
-   right: right arrow
+   * up: up arrow
+   * down: down arrow
+   * left: left arrow
+   * right: right arrow
 
 debug mode:  shift + meta + d
