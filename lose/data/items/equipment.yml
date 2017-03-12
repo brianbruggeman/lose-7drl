@@ -1,0 +1,58 @@
+- name: coffee
+  type: drink
+  description: >
+      Thick, oily, black coffee built to ruin a digestive track, rot
+      your teeth, and give you the needed burst of mental faculties
+      to run circles around your enemies.
+  display:
+    text: coffee
+    icon:
+      character: ","
+      color:
+        lit: [46, 26, 13]
+
+- name: espresso
+  type: drink
+  description: >
+      A powerful, mood altering shot of espresso.
+  display:
+    text: espresso
+    icon:
+      character: ","
+      color:
+        lit: [46, 26, 13]
+
+- name: shaving-cream
+  type: tool
+  description: >
+      A small dab of shaving cream, just enough for your neck and beard.
+  display:
+    text: shaving cream
+    icon:
+      character: "?"
+      color:
+        lit: [255, 223, 197]
+
+- name: shaving-razor
+  type: tool
+  description: >
+      A well used razor, just sharp enough for your beard or neck.
+      Made in China.
+  display:
+    text: razor
+    icon:
+      character: "?"
+      color:
+        lit: [187, 249, 255]
+
+- name: small-mirror
+  type: accessory
+  description: >
+      A small, worn mirror.
+      Made in China.
+  display:
+    text: mirror
+    icon:
+      character: "?"
+      color:
+        lit: [208, 255, 210]

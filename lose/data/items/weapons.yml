@@ -1,0 +1,12 @@
+- name: punch-card
+  type: software
+  display: Blank Punch Card
+  description: >
+     An unused punch card useful for instructing software
+  display:
+    text: Blank Punch Card
+    icon:
+      character: "/"
+      color:
+        lit: [232, 184, 120]
+        unlit: [125, 130, 96]

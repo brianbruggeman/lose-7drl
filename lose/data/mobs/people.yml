@@ -1,0 +1,104 @@
+- name: chad
+  type: people
+  display:
+    text: A Chad
+    icon:
+      character: "C"
+
+- name: coworker
+  type: people
+  display:
+    text: A Coworker
+    icon:
+      character: "C"
+
+- name: hipster
+  type: people
+  display:
+    text: A Hipster
+    icon:
+      character: "H"
+
+- name: jock
+  type: people
+  display:
+    text: A Jock
+    icon:
+      character: "J"
+
+- name: junior-software-engineer
+  type: people
+  display:
+    text: A Junior Software Engineer
+    icon:
+      character: "J"
+
+- name: manager
+  type: people
+  display:
+    text: A Manager
+    icon:
+      character: "M"
+
+- name: neck-beard
+  type: people
+  display:
+    text: A Neck Beard
+    icon:
+      character: "N"
+
+- name: nerd
+  type: people
+  display:
+    text: A Nerd
+    icon:
+      character: "N"
+
+- name: principal-software-engineer
+  type: people
+  display:
+    text: A Principal Software Engineer
+    icon:
+      character: "P"
+
+- name: senior-software-engineer
+  type: people
+  display:
+    text: A Senior Software Engineer
+    icon:
+      character: "S"
+
+- name: software-architect
+  type: people
+  display:
+    text: A Software Architect
+    icon:
+      character: "A"
+
+- name: software-engineer
+  type: people
+  display:
+    text: A Software Engineer
+    icon:
+      character: "E"
+
+- name: software-head
+  type: people
+  display:
+    text: A Software Head Engineer
+    icon:
+      character: "H"
+
+- name: software-lead
+  type: people
+  display:
+    text: A Lead Software Engineer
+    icon:
+      character: "L"
+
+- name: trixie
+  type: people
+  display:
+    text: A Trixie
+    icon:
+      character: "T"

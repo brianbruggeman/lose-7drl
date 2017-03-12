@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#
+#  Captures pdb's in files before commits.
+#
+DEFAULT_IFS=$IFS
+FILES_PATTERN='\.py(\..+)?$'
+FORBIDDEN_PATTERN='^[^#]*pdb.set_trace()'
+IFS=$'\n'
+FILES=$(git diff --cached --name-only | grep -E $FILES_PATTERN)
+for found in $FILES; do
+    grep -H -n -e $FORBIDDEN_PATTERN $found
+done
+IFS=$DEFAULT_IFS
+FOUND=$(echo $FILES | xargs grep -H -n -e $FORBIDDEN_PATTERN)
+ERROR_MESSAGE='COMMIT REJECTED Found "pdb.set_trace()" references. Please remove them before committing'
+[[ -z $FOUND ]] && exit 0 || echo $ERROR_MESSAGE && exit 1
