@@ -1,0 +1,63 @@
+- name: button-down-shirt
+  type: shirt
+  display:
+    text: Button Down Shirt
+    icon:
+      character: "&"
+      color:
+        lit: [232, 184, 120]
+  description: >
+     A simple, low-quality cotton button-down shirt.  Made in China.
+  stats:
+    clout: 1
+    class: 1
+    managerial: 1
+    techie: 1
+
+- name: default-pocket-protector
+  type: pocket-protector
+  display:
+    text: A Simple Pocket Protector
+    icon:
+      character: "-"
+      color:
+        lit: [187, 189, 191]
+  description: >
+      Someone's pocket protector.  It could be yours!  Made in USA.
+  stats:
+    clout: 3
+    class: -1
+    techie: 3
+
+- name: green-tie
+  type: tie
+  display:
+    text: A Green Tie
+    icon:
+      character: "|"
+      color:
+        lit: [28, 232, 59]
+  description: >
+      A glorious thin green tie that hangs just above your belly button.
+      Made in China.
+  stats:
+    chutzpuh: 1
+    class: 1
+    clout: 2
+    techie: 1
+
+- name: thick-rimmed-glasses
+  type: eye-wear
+  display:
+    text: A Pair of Thick Rimmed Glasses
+    icon:
+      character: "("
+      color:
+        lit: [45, 45, 46]
+  description: >
+     A heavy pair of black, thick rimmed glasses made from the highest
+     quality plastic.  Made in China.
+  stats:
+    clout: 2
+    class: -2
+    techie: 1

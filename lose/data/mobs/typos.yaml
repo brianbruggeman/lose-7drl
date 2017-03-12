@@ -1,0 +1,27 @@
+- name: missing-semicolon
+  type: typo
+  display:
+    text: A Missing Semicolon
+    icon:
+      character: ";"
+
+- name: missing-space
+  type: typo
+  display:
+    text: A Missing Space
+    icon:
+      character: " "
+
+- name: invalid-variable-name
+  type: typo
+  display:
+    text: An invalid variable name
+    icon:
+      character: "v"
+
+- name: undeclared-variable
+  type: typo
+  display:
+    text: An undeclared-variable
+    icon:
+      character: "v"

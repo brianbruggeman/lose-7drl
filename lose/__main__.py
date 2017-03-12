@@ -9,14 +9,14 @@ Options:
     -h --height HEIGHT   Set main window height
     -f --fullscreen      Run in fullscreen mode
     -C --no-color        Disable color
-    -d --debug           Run in debug mode
     -r --framerate RATE  Set frame rate
     -v --verbose         Increase spam output
+       --seed SEED       Set the seed
 """
 
 
 def lose():
-    from lose import runner
+    from .game import runner
 
     docstring = __doc__
     runner(docstring=docstring, cli_arguments=None)

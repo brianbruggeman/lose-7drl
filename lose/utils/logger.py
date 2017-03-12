@@ -56,6 +56,12 @@ def log_fatal(self, message, *args, **kwds):
         self.log(FATAL, message, *args, **kwds)
 
 
+# Add new levels
+logging.Logger.all = log_all
+logging.Logger.trace = log_trace
+logging.Logger.fatal = log_fatal
+
+
 def get_logger(logname, level=None):
     """Default logging setup
 
@@ -69,23 +75,24 @@ def get_logger(logname, level=None):
     if isinstance(level, str):
         level = level.upper()
     level = log_name_mapping.get(level) or level
-    level = logging.INFO if not isinstance(level, int) else level
-
-    # Add new levels
-    logging.Logger.all = log_all
-    logging.Logger.trace = log_trace
-    logging.Logger.fatal = log_fatal
 
     root_name = logname.split('.')[0]
     root_logger = logging.getLogger(root_name)
+    root_logger.propagate = False
+    if not isinstance(level, int) or level is None:
+        level = root_logger.level
+    else:
+        level = TRACE if not isinstance(level, int) else level
+
     logger = logging.getLogger(logname)
+    # logger.propagate = False
 
     # setup root logger
     root_logger.setLevel(level)
-    logger.setLevel(level)
+    # logger.setLevel(level)
 
     add_custom_handler = True
-    for handler in logger.handlers:
+    for handler in root_logger.handlers:
         if isinstance(handler, logging.StreamHandler):
             add_custom_handler = False
 
@@ -94,7 +101,7 @@ def get_logger(logname, level=None):
         formatter = CustomFormatter()
         handler.setFormatter(formatter)
         handler.setLevel(ALL)
-        logger.addHandler(handler)
+        root_logger.addHandler(handler)
 
     return logger
 

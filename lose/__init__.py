@@ -1,44 +1,41 @@
 # -*- coding: utf-8 -*-
 import os
-
-from docopt import docopt
-
-from .utils import get_logger, main_menu  # noqa
-from .__metadata__ import __versionstr__ as version
+import sys
 
 
-def initialize_game():
-    """Generates a basic game state"""
-    game_state = {
-        'SCREEN_WIDTH': 80,
-        'SCREEN_HEIGHT': 43,
-        'MAP_WIDTH': 80,
-        'MAP_HEIGHT': 43,
-        'PANEL_HEIGHT': 7,
-        'PANEL_WIDTH': 43,
-        'LIMIT_FPS': 20,
-        'package_path': os.path.dirname(__file__),
-    }
-    return game_state
+# ----------------------------------------------------------------------
+# Sometimes the environment is not actually setup, so let's try setting
+# it up.  Order is important here, so do not mess up the import order.
+# Having this at the top of __init__ should insure that the shared
+# binary for libtcod can be found without needing to setup anything
+# special.  If a LIBTCOD_DLL_PATH environment variable is already set
+# then this will simply append to that variable
+# ----------------------------------------------------------------------
+def setup_tcod_shared_object_paths():
+    dll_path_to_search = [
+        os.path.abspath(os.getcwd()),
+    ]
+    if '__file__' in locals():
+        dll_path_to_search.append(os.path.dirname(__file__))
 
+    if sys.platform in ['darwin', 'linux']:
+        dll_path_to_search.extend([
+            '~/lib',
+            '~/.local/lib',
+            '/usr/local/lib',
+            '/usr/lib',
+        ])
+    elif sys.platform in ['win32']:
+        dll_path_to_search.extend([
+            '\\Windows\\System32',
+            '\\Windows',
+        ])
 
-def runner(docstring=None, cli_arguments=None):
-    """Runs the game
-
-    Args:
-        docstring(str): Basic docstring for running the game
-        cli_arguments(str): Basic command-line string
-    """
-    version_string = f"LOSE {version} Land of Software Engineering [7drl 2017]"
-    options = docopt(docstring, version=version_string, argv=cli_arguments)
-    if options.get('--verbose') > 1:
-        logger = get_logger('lose', 'TRACE')
-    elif options.get('--verbose') > 0:
-        logger = get_logger('lose', 'DEBUG')
+    if 'LIBTCOD_DLL_PATH' not in os.environ:
+        os.environ['LIBTCOD_DLL_PATH'] = ';'.join(dll_path_to_search)
     else:
-        logger = get_logger('lose', 'INFO')
+        dll_path = os.environ.get('LIBTCOD_DLL_PATH')
+        dll_path = ';'.join((dll_path, ';'.join(dll_path_to_search)))
 
-    game_state = initialize_game()
-    game_state['logger'] = logger
-    logger.debug({'game_state': game_state})
-    main_menu(game_state)
+
+setup_tcod_shared_object_paths()

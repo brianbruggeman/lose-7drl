@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import libtcodpy as libtcod
+import tcod
 
 from ..logger import get_logger
 
@@ -27,7 +27,7 @@ class Panel(object):
         self.name = name or 'Untitled'
         self.position = position or (0, 0)
         self.parent = parent
-        self.panel = libtcod.console_new(self.width, self.height)
+        self.panel = tcod.console_new(self.width, self.height)
 
     def __repr__(self):
         cname = self.__class__.__name__

@@ -114,3 +114,7 @@ device_graph.egg-info
 docs/_build
 docs/coverage
 docs/reports
+
+
+# libtcod tutorial
+savegame

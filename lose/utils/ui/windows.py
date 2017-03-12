@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
-import libtcodpy as libtcod
+import tcod
 
 from ..logger import get_logger
 
@@ -22,28 +22,32 @@ def create_windows(game_state):
     Returns:
         dict: mapping of game window name to window
     """
-    SCREEN_WIDTH = game_state['SCREEN_WIDTH']
-    SCREEN_HEIGHT = game_state['SCREEN_HEIGHT']
-    MAP_WIDTH = game_state['MAP_WIDTH']
-    MAP_HEIGHT = game_state['MAP_HEIGHT']
-    PANEL_WIDTH = game_state['PANEL_WIDTH']
-    PANEL_HEIGHT = game_state['PANEL_HEIGHT']
-    LIMIT_FPS = game_state['LIMIT_FPS']
-    package_path = game_state['package_path']
+    screen_width = game_state.get('screen-width') or 80
+    screen_height = game_state.get('screen-height') or 50
+    map_width = game_state.get('map-width') or 72
+    map_height = game_state.get('map-height') or 43
+    panel_height = game_state.get('panel-height') or screen_height
+    panel_width = game_state.get('panel-width') or (screen_width - map_width)
+    message_width = game_state.get('message-width') or map_width
+    message_height = game_state.get('message-height') or (screen_height - map_height)
 
-    font_bits = libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_ASCII_INROW
+    limit_fps = game_state.get('limit-fps') or 20
+    package_path = game_state['package-path']
+
+    font_bits = tcod.FONT_TYPE_GREYSCALE | tcod.FONT_LAYOUT_ASCII_INROW
     font_filename = 'game-font.png'
     font_filepath = os.path.join(package_path, 'data', 'assets', font_filename)
-    libtcod.console_set_custom_font(font_filepath, font_bits)
+    tcod.console_set_custom_font(font_filepath, font_bits)
 
     windows = {
-        'root': libtcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, 'lose', False),
-        'console': libtcod.console_new(MAP_WIDTH, MAP_HEIGHT),
-        'panel': libtcod.console_new(SCREEN_WIDTH, PANEL_HEIGHT),
+        'root': tcod.console_init_root(screen_width, screen_height, 'lose', False),
+        'console': tcod.console_new(map_width, map_height),
+        'panel': tcod.console_new(panel_width, panel_height),
+        'messages': tcod.console_new(message_width, message_height),
     }
     game_state['windows'] = windows
 
-    assert not libtcod.console_is_window_closed()
-    libtcod.sys_set_fps(LIMIT_FPS)
-    logger.debug({'Created': windows})
+    assert not tcod.console_is_window_closed()
+    tcod.sys_set_fps(limit_fps)
+    logger.trace({'Created': windows})
     return game_state

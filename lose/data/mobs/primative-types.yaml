@@ -1,0 +1,62 @@
+- name: bit
+  type: type
+  display:
+    text: A bit
+    icon:
+      character: "b"
+
+- name: byte
+  type: type
+  display:
+    text: A byte
+    icon:
+      character: "b"
+
+- name: character
+  type: type
+  display:
+    text: A character
+    icon:
+      character: "c"
+
+- name: double
+  type: type
+  display:
+    text: A double
+    icon:
+      character: "d"
+
+- name: float-32
+  type: type
+  display:
+    text: A 32-bit float
+    icon:
+      character: "f"
+
+- name: float-64
+  type: type
+  display:
+    text: A 64-bit float
+    icon:
+      character: "f"
+
+- name: integer
+  type: type
+  display:
+    text: An Integer
+    icon:
+      character: "i"
+
+- name: long
+  type: type
+  display:
+    text: A long
+    icon:
+      character: "l"
+
+- name: unsigned-integer
+  type: type
+  display:
+    text: An Unsigned Integer
+    icon:
+      character: "i"

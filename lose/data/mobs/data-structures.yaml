@@ -1,0 +1,55 @@
+- name: array
+  type: type
+  display:
+    text: An array
+    icon:
+      character: "a"
+
+- name: ordered-map
+  type: type
+  display:
+    text: An ordered-map
+    icon:
+      character: "m"
+
+- name: ordered-set
+  type: type
+  display:
+    text: An ordered set
+    icon:
+      character: "s"
+
+- name: queue
+  type: type
+  display:
+    text: A queue
+    icon:
+      character: "q"
+
+- name: stack
+  type: type
+  display:
+    text: A stack
+    icon:
+      character: "s"
+
+- name: string
+  type: type
+  display:
+    text: A string
+    icon:
+      character: "s"
+
+- name: unordered-map
+  type: type
+  display:
+    text: An unordered-map
+    icon:
+      character: "m"
+
+- name: unordered-set
+  type: type
+  display:
+    text: An unordered set
+    icon:
+      character: "s"
