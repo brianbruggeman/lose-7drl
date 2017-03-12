@@ -28,7 +28,9 @@ This is pip installable.  Just clone the repo and then:
 Recommendation:  use a virtual-environment
 
     pip install vex
+
     vex -m --python python3 lose
+
     pip install -e .[all]
 
 
