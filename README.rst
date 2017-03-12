@@ -20,4 +20,39 @@ through meetings, infinite recursion and race conditions.
 Installation
 ------------
 
+This is pip installable.  Just clone the repo and then:
 
+    pip install -e .[all]
+
+
+Recommendation:  use a virtual-environment
+
+    pip install vex
+    vex -m --python python3 lose
+    pip install -e .[all]
+
+
+Running
+-------
+
+Once the game is installed, you should be able to run from the command-line:
+
+    lose
+
+Additionally, there's some help for the command-line:
+
+    lose --help
+
+
+
+Gameplay
+--------
+
+Movement keys:
+
+   up: up arrow
+   down: down arrow
+   left: left arrow
+   right: right arrow
+
+debug mode:  shift + meta + d
