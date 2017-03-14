@@ -62,9 +62,9 @@
       character: "."
 
 - name: ladder-down
-  blocking:
-    movement:
-      rate: 60
+  # blocking:
+  #   movement:
+  #     rate: 60
   display:
     text: tcp socket
     description: >
@@ -73,9 +73,9 @@
       character: ">"
 
 - name: ladder-up
-  blocking:
-    movement:
-      rate: 60
+  # blocking:
+  #   movement:
+  #     rate: 60
   display:
     text: tcp socket
     description: >
@@ -84,11 +84,11 @@
       character: "<"
 
 - name: loose-rubble
-  blocking:
-    movement:
-      rate: 100
-    sight:
-      opaque: 80
+  # blocking:
+  #   movement:
+  #     rate: 100
+  #   sight:
+  #     opaque: 80
   display:
     text: fragmented data
     description: >

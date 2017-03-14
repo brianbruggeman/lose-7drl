@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import copy
 import os
+import copy
 
 import yaml
 

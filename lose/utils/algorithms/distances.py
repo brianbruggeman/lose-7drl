@@ -84,11 +84,11 @@ def log_distance(x, y, func=None, k=None):
         int:  the distance calculated between point x and point y
     """
     if k is None:
-        k = 1.2
+        k = 1.1
     if func is None:
-        func = octagonal_distance
+        func = euclidean_distance
     distance = func(x, y)
     if distance == 0:
-        distance = 1 / 10**10
-    logged_distance = 6 * math.log(distance)
+        distance = 1 / 1000
+    logged_distance = math.log(distance)
     return logged_distance

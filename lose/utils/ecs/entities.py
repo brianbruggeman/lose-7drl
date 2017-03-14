@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 import hashlib
+from collections import namedtuple
 
 from components import Component
-
-
-from collections import namedtuple
 
 
 class Entity(object):
@@ -46,7 +44,8 @@ class Entity(object):
                     data = getattr(component, component_fields[0])
                 return data
             else:
-                raise AttributeError(f'ERROR: "{name}" is not a valid attribute.')
+                msg = f'ERROR: "{name}" is not a valid attribute.'
+                raise AttributeError(msg)
         else:
             return self.__dict__[name]
 
@@ -70,11 +69,20 @@ class Entity(object):
                 data.append(f'{component_data}')
             else:
                 data.append(f'{component_name}={component_data}')
-        data = ' | '.join(data)
-        if name:
-            string = f'<{cname} {name} [{data}]>'
+        if len(data) == 1:
+            data = str(data)
         else:
-            string = f'<{cname} [{data}]>'
+            data = '[{}]'.format(' | '.join(data))
+        if name:
+            if data:
+                string = f'<{cname} {name} {data}>'
+            else:
+                string = f'<{cname} {name}>'
+        else:
+            if data:
+                string = f'<{cname} {data}>'
+            else:
+                string = f'<{cname}>'
         return string
 
     def __setattr__(self, name, value):

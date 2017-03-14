@@ -3,6 +3,7 @@ import copy
 from random import choice, randint
 
 import tcod
+from ..colors import get_color_map
 
 
 def build_level(game_state):
@@ -126,10 +127,12 @@ def generate_items(game_state, number_to_create=None):
 
 
 def render_bar(game_state, x, y, total_width, name, value, maximum, bar_color, back_color):
-    panel = game_state.get('windows', {}).get('panel')  # or build_pane()
+    panel = game_state['windows']['panel']
+    player_health = game_state.get('player-health') or 0
+    player_health_max = game_state.get('player-health-max') or 10
 
     # render a bar (HP, experience, etc). first calculate the width of the bar
-    bar_width = int(float(value) / maximum * total_width)
+    bar_width = int(float(player_health) / player_health_max * total_width)
 
     # render the background first
     tcod.console_set_default_background(panel, back_color)
@@ -143,16 +146,33 @@ def render_bar(game_state, x, y, total_width, name, value, maximum, bar_color, b
     # finally, some centered text with the values
     tcod.console_set_default_foreground(panel, tcod.white)
     tcod.console_print_ex(panel, x + total_width // 2, y, tcod.BKGND_NONE, tcod.CENTER,
-                          name + ': ' + str(value) + '/' + str(maximum))
+                          name + ': ' + str(player_health) + '/' + str(player_health_max))
+
+
+def render_messages(game_state):
+    messages_panel = game_state['windows']['messages']
+    messages = game_state['messages']
+
+    background_color = tcod.Color(0, 0, 0)
+    foreground_color = tcod.Color(127, 127, 127)
+    tcod.console_set_default_background(messages_panel, background_color)
+    tcod.console_set_default_foreground(messages_panel, foreground_color)
+    for index, message in enumerate(messages):
+        tcod.console_print_ex(messages_panel, 0, index + 1, tcod.BKGND_NONE, tcod.LEFT, message)
 
 
 def render_all(game_state):
     screen_height = game_state.get('screen-height')
     screen_width = game_state.get('screen-width')
     panel_height = game_state.get('panel-height')
+    panel_width = game_state.get('panel-width')
+    message_height = game_state.get('message-height')
+    # message_width = game_state.get('message-width')
     map_height = game_state.get('map-height')
     map_width = game_state.get('map-width')
     con = game_state['windows']['console']
+    panel = game_state['windows']['panel']
+    message_panel = game_state['windows']['messages']
 
     render_level_map(game_state)
     render_player(game_state)
@@ -161,20 +181,25 @@ def render_all(game_state):
     panel = game_state.get('windows', {}).get('panel')
 
     # prepare to render the GUI panel
-    tcod.console_set_default_background(panel, tcod.black)
+    tcod.console_set_default_background(panel, tcod.dark_gray)
     tcod.console_clear(panel)
 
     # show the player's stats
-    render_bar(game_state, 1, 1, 43, 'HP', 100, 100, tcod.light_red, tcod.darker_red)
+    render_bar(game_state, 0, 0, 25, 'health', 100, 100, tcod.light_red, tcod.darker_red)
+
+    # show messages
+    render_messages(game_state)
 
     # blit the contents of "panel" to the root console
+    tcod.console_blit(message_panel, 0, 0, screen_width, message_height, 0, panel_width, screen_height - message_height)
     tcod.console_blit(panel, 0, 0, screen_width, panel_height, 0, 0, screen_height - panel_height)
     tcod.console_blit(con, 0, 0, map_width, map_height, 0, 0, 0)
 
     clear_player(game_state)
+    tcod.console_flush()
 
 
-def render_level_map(game_state):
+def render_level_map(game_state, using_dijkstra=False):
     if 'fov-map' not in game_state:
         build_level(game_state)
     fov_map = game_state.get('fov-map')
@@ -186,6 +211,7 @@ def render_level_map(game_state):
     x, y = game_state.get('character-position')
     con = game_state['windows']['console']
     tiles = game_state.get('tiles')
+    # colors = get_color_map()
 
     tcod.map_compute_fov(fov_map, y, x, torch_radius, fov_light_walls, fov_algorithm)
     for y in range(map_height):

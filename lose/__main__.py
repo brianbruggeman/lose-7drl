@@ -13,13 +13,15 @@ Options:
     -v --verbose         Increase spam output
        --seed SEED       Set the seed
 """
+import sys
 
 
 def lose():
-    from .game import runner
+    from .runner import runner
 
     docstring = __doc__
-    runner(docstring=docstring, cli_arguments=None)
+    argv = sys.argv[1:] if len(sys.argv) > 1 else []
+    runner(docstring=docstring, cli_arguments=argv)
 
 
 if __name__ == '__main__':

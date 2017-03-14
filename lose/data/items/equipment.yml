@@ -5,7 +5,7 @@
       your teeth, and give you the needed burst of mental faculties
       to run circles around your enemies.
   display:
-    text: coffee
+    text: Coffee
     icon:
       character: ","
       color:
@@ -16,7 +16,7 @@
   description: >
       A powerful, mood altering shot of espresso.
   display:
-    text: espresso
+    text: Espresso
     icon:
       character: ","
       color:
@@ -27,7 +27,7 @@
   description: >
       A small dab of shaving cream, just enough for your neck and beard.
   display:
-    text: shaving cream
+    text: Shaving Cream
     icon:
       character: "?"
       color:
@@ -39,7 +39,7 @@
       A well used razor, just sharp enough for your beard or neck.
       Made in China.
   display:
-    text: razor
+    text: Razor
     icon:
       character: "?"
       color:
@@ -51,7 +51,7 @@
       A small, worn mirror.
       Made in China.
   display:
-    text: mirror
+    text: Mirror
     icon:
       character: "?"
       color:

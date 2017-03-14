@@ -15,7 +15,7 @@ __all__ = (
 # ----------------------------------------------------------------------
 __project__ = 'lose'
 __description__ = 'Land of Software Engineering - A 7drl entry'
-__versionstr__ = '0.1.0'
+__versionstr__ = '0.2.0'
 __author__ = 'bix'
 
 __copyright_years__ = '2017'
