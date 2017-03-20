@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import sys
 import operator
+from time import sleep
 from random import choice, random, randint
 
 import tcod
 
 from ..logger import get_logger
 from .messages import message
-
 
 logger = get_logger(__name__)
 
@@ -84,7 +84,7 @@ def get_key_character(key, exact=False):
     return char, char_string, mods, gen_mods
 
 
-def get_user_input(wait=True):
+def get_user_input(wait=True, timeout=0.01):
     mouse = tcod.Mouse()
     key = tcod.Key()
 
@@ -105,6 +105,7 @@ def get_user_input(wait=True):
             val = key_info['text']
         if not wait:
             break
+        sleep(timeout)
     return val
 
 
@@ -183,7 +184,8 @@ def handle_game_user_input(game_state):
             game_state['debug'] = not game_state['debug']
         elif not movement_diff:
             character_action = handle_combat(game_state, position, user_key)
-            game_state['round-updates']['character-action'] = character_action
+            if character_action:
+                game_state['round-updates']['character-action'] = character_action
     # if not movement_diff and not character_action:
     #     return user_key
     return user_key

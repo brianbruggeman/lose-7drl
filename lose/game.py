@@ -37,7 +37,8 @@ def initialize_visual_library(game_state):
 
 def check_for_player_action(game_state):
     action_fields = ['character-action', 'character-movement']
-    action = any(field in game_state.get('round-updates', []) for field in action_fields)
+    round_updates = game_state.get('round-updates', {})
+    action = any(field in round_updates.keys() for field in action_fields)
     return action
 
 
@@ -51,18 +52,14 @@ def check_for_level_updates(game_state):
 
 
 def check_for_dirty_game_state(game_state):
-    game_state_is_dirty = False or check_for_player_action(game_state)
+    game_state_is_dirty = check_for_player_action(game_state) or False
     game_state_is_dirty = game_state_is_dirty or check_for_level_updates(game_state)
     return game_state_is_dirty
 
 
 def mob_combat(game_state):
-    updates = game_state['round-updates']
-    action = game_state.get('character-action') or updates.get('character-movement')
     character_position = game_state.get('character-position')
     player_health = game_state.get('player-health') or 10
-    if not action:
-        return
 
     level_map = game_state['current-level']
     for neighbor in get_neighbors(character_position, include_diagonals=True):
