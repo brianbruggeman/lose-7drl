@@ -2,167 +2,218 @@
   ref: wall
 
 - name: bridge
-  display:
-    text: A connection
-    description: >
-      You see a connection spanning bits
-    icon:
-      character: "="
-      color:
-        lit: [0, 255, 255]
-        unlit: [100, 100, 100]
+  states:
+    - name: connected
+      default: true
+      display:
+        text: A connection
+        description: >
+          You see a connection spanning bits
+        icon:
+          character: "="
+          color:
+            lit: [0, 255, 255]
+            unlit: [100, 100, 100]
+    - name: disconnected
+      display:
+        text: A disconnected connection
+        description: >
+          You see a disconnection
+        icon:
+          character: "~"
+          color:
+            lit: [0, 200, 255]
+            unlit: [100, 100, 100]
 
-- name: closed-door
-  blocking:
-    movement:
-      rate: 100
-    sight:
-      opaque: 100
-  display:
-    text: A closed port
-    description: >
-      A closed port within the firewall
-    icon:
-      character: "+"
-      color:
-        lit: [125, 145, 68]
-        unlit: [100, 100, 100]
+- name: door
+  states:
+    - name: closed
+      default: true
+      frequency: 40
+      blocking:
+        movement:
+          rate: 100
+        sight:
+          rate: 100
+      display:
+        text: A closed port
+        description: >
+          A closed port within the firewall
+        icon:
+          character: "+"
+          color:
+            lit: [125, 145, 68]
+            unlit: [100, 100, 100]
+    - name: open
+      frequency: 40
+      display:
+        text: An open port
+        description: >
+          A open port within the firewall
+        icon:
+          character: "-"
+          color:
+            lit: [125, 145, 68]
+            unlit: [100, 100, 100]
+    - name: hidden
+      frequency: 15
+      ref: wall
+    - name: broken
+      frequency: 5
+      ref: floor
+
 
 - name: floor
-  display:
-    text: file bytes
-    description: >
-      Several bits within a file
-    icon:
-      character: "."
-
-- name: hidden-door
-  blocking:
-    movement:
-      rate: 100
-  display:
-    text: A firewall
-    description: >
-      A firewall
-    icon:
-      character: "#"
-      color:
-        lit: [255, 255, 255]
-        unlit: [100, 100, 100]
-
-- name: hidden-trap
-  hidden:
-    chance: 80
-    tile: floor
-  display:
-    text: file bytes
-    description: >
-      Several bits within a file
-    icon:
-      character: "."
+  states:
+    - name: standard
+      display:
+        text: file bytes
+        description: >
+          Several bits within a file
+        icon:
+          character: "."
 
 - name: ladder-down
   # blocking:
   #   movement:
   #     rate: 60
-  display:
-    text: tcp socket
-    description: >
-      A downstream tcp connection that runs deeper into the network
-    icon:
-      character: ">"
+  states:
+    - name: standard
+      display:
+        text: tcp socket
+        description: >
+          A downstream tcp connection that runs deeper into the network
+        icon:
+          character: ">"
 
 - name: ladder-up
   # blocking:
   #   movement:
   #     rate: 60
-  display:
-    text: tcp socket
-    description: >
-      An upstream tcp connection that runs out to the cloud
-    icon:
-      character: "<"
-
-- name: loose-rubble
-  # blocking:
-  #   movement:
-  #     rate: 100
-  #   sight:
-  #     opaque: 80
-  display:
-    text: fragmented data
-    description: >
-      Impenetrable fragmented data.  You wonder what the data once was
-    icon:
-      character: ":"
-
-- name: open-door
-  display:
-    text: An open port
-    description: >
-      A open port within the firewall
-    icon:
-      character: "-"
-      color:
-        lit: [255, 255, 255]
-        unlit: [100, 100, 100]
+  states:
+    - name: standard
+      display:
+        text: tcp socket
+        description: >
+          An upstream tcp connection that runs out to the cloud
+        icon:
+          character: "<"
 
 - name: stairs-down
-  display:
-    text: udp socket
-    description: >
-      A downstream udp connection that runs deeper into the network
-    icon:
-      character: ">"
+  states:
+    - name: standard
+      display:
+        text: udp socket
+        description: >
+          A downstream udp connection that runs deeper into the network
+        icon:
+          character: ">"
 
 - name: stairs-up
-  character: "<"
-  display:
-    text: udp socket
-    description: >
-      An upstream udp connection that runs out to the cloud
-    icon:
+  states:
+    - name: standard
       character: "<"
+      display:
+        text: udp socket
+        description: >
+          An upstream udp connection that runs out to the cloud
+        icon:
+          character: "<"
 
 - name: trap
-  hidden:
-    chance: 80
-    tile: floor
-  display:
-    text: corrupted data
-    description: >
-      Corrupted data
-    icon:
-      character: "^"
+  states:
+    - name: visible
+      frequency: 15
+      display:
+        text: corrupted data
+        description: >
+          Corrupted data
+        icon:
+          character: "^"
+    - name: hidden
+      default: true
+      ref: floor
+      frequency: 80
+    - name: removed
+      ref: floor
 
 - name: wall
-  blocking:
-    movement:
-      rate: 100
-    sight:
-      opaque: 100
-  display:
-    text: firewall
-    description: >
-      A firewall
-    icon:
-      character: "#"
-      color:
-        lit: [255, 255, 255]
-        unlit: [100, 100, 100]
+  states:
+    - name: standard
+      default: true
+      frequency: 95
+      blocking:
+        movement:
+          rate: 100
+        sight:
+          opaque: 100
+      display:
+        text: firewall
+        description: >
+          A firewall
+        icon:
+          character: "#"
+          color:
+            lit: [255, 255, 255]
+            unlit: [100, 100, 100]
+    - name: loose
+      frequency: 5
+      default: true
+      blocking:
+        movement:
+          rate: 100
+        sight:
+          opaque: 50
+      display:
+        text: fragmented data
+        description: >
+          Fragmented data.  You wonder what the data once was
+        icon:
+          character: ":"
+          color:
+            lit: [110, 110, 110]
+            unlit: [100, 100, 100]
+    - name: cleared
+      ref: floor
 
 - name: water
-  # blocking:
-  #   movement:
-  #     rate: 50
-  #   sight:
-  #     opaque: 50
-  display:
-    text: floating bits
-    description: >
-      A stream of bits
-    icon:
-      character: "~"
-      color:
-        lit: [0, 0, 255]
-        unlit: [0, 0, 100]
+  states:
+    - name: flowing
+      default: true
+      blocking:
+        movement:
+          rate: 50
+        sight:
+          opaque: 50
+      display:
+        text: floating bits
+        description: >
+          A stream of bits
+        icon:
+          character: "~"
+          color:
+            lit: [0, 0, 255]
+            unlit: [0, 0, 100]
+    - name: vaporized
+      blocking:
+        sight:
+          opaque: 100
+      display:
+        text: floating bits
+        description: >
+          A stream of high-density bits
+        icon:
+          character: "~"
+          color:
+            lit: [0, 127, 127]
+            unlit: [0, 0, 100]
+    - name: frozen
+      display:
+        text: stuck bits
+        description: >
+          A stream of stuck bits
+        icon:
+          character: "~"
+          color:
+            lit: [0, 255, 255]
+            unlit: [0, 0, 100]

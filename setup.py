@@ -8,6 +8,10 @@ import sys
 import datetime
 
 from setuptools import setup, find_packages
+from distutils.core import Extension
+
+
+distances_module = Extension('lose.utils.algorithms.distances._distances', sources=['src/distances.c'])
 
 
 def setup_project():
@@ -113,21 +117,24 @@ def get_package_metadata(project_name=None):
         if not any(root.endswith(p) for p in package_names):
             continue
         for filename in files:
-            if filename == '__metadata__.py':
-                filepath = os.path.join(root, filename)
-                relpath = filepath.replace(top_folder, '').lstrip('/')
-                with open(os.path.join(filepath)) as fd:
-                    exec(fd.read(), metadata)
-                if 'package_metadata' in metadata:
-                    metadata = metadata.get('package_metadata', {})
-                if not all(field in metadata for field in required_fields):
-                    missing = ', '.join(
-                        field
-                        for field in sorted(required_fields)
-                        if field not in metadata
-                    )
-                    missing_message.append('{} is missing: {}'.format(relpath, missing))
-                    metadata = {}
+            if filename != '__metadata__.py':
+                continue
+            filepath = os.path.join(root, filename)
+            relpath = filepath.replace(top_folder, '').lstrip('/')
+            with open(os.path.join(filepath)) as fd:
+                data = fd.read()
+                metadata['__file__'] = filepath
+                exec(data, metadata)
+            if 'package_metadata' in metadata:
+                metadata = metadata.get('package_metadata', {})
+            if not all(field in metadata for field in required_fields):
+                missing = ', '.join(
+                    field
+                    for field in sorted(required_fields)
+                    if field not in metadata
+                )
+                missing_message.append('{} is missing: {}'.format(relpath, missing))
+                metadata = {}
             if metadata:
                 break
         if metadata:
@@ -367,6 +374,9 @@ def main():
         options=package_distribution_options,
         data_files=package_distribution_data_files,
         app=['run-lose.py'],
+
+        # compiled modules
+        ext_modules=[distances_module],
     )
 
 

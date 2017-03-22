@@ -31,6 +31,7 @@ def initialize_game_state(initial_seed=None, debug=False):
         'current-round': 0,
 
         'health-update': 32,
+        'player-health': 1,
 
         'debug': debug,
         'seed': initial_seed,

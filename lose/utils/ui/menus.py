@@ -35,10 +35,9 @@ def death_menu(game_state):
         tcod.console_set_default_foreground(root_window, tcod.white)
         tcod.console_set_default_background(root_window, tcod.black)
         tcod.console_print_ex(root_window, half_width, screen_height - 5, alpha, justification, menu_title)
+        tcod.console_flush()
 
-        # show options and wait for the player's choice
-        options = {}
-        key, win = menu('', options, 24, game_state)
+        key = get_user_input()
         if key:
             break
 

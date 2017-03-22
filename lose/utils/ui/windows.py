@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
-
 import tcod
 
 from ..logger import get_logger
@@ -32,12 +30,6 @@ def create_windows(game_state):
     message_height = game_state.get('message-height') or (screen_height - map_height)
 
     limit_fps = game_state.get('limit-fps') or 20
-    package_path = game_state['package-path']
-
-    font_bits = tcod.FONT_TYPE_GREYSCALE | tcod.FONT_LAYOUT_ASCII_INROW
-    font_filename = 'game-font.png'
-    font_filepath = os.path.join(package_path, 'data', 'assets', font_filename)
-    tcod.console_set_custom_font(font_filepath, font_bits)
 
     windows = {
         'root': tcod.console_init_root(screen_width, screen_height, 'lose', False),
@@ -45,9 +37,8 @@ def create_windows(game_state):
         'panel': tcod.console_new(panel_width, panel_height),
         'messages': tcod.console_new(message_width, message_height),
     }
-    game_state['windows'] = windows
 
     assert not tcod.console_is_window_closed()
     tcod.sys_set_fps(limit_fps)
     logger.trace({'Created': windows})
-    return game_state
+    return windows

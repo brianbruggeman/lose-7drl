@@ -101,6 +101,24 @@ def load_mobs(game_state, path=None):
     return mobs
 
 
+def load_symbols(data):
+    """Searches for symbol data"""
+    for data_name, data_value in data.items():
+        states = data_value.get('states')
+        if data_name == 'default' or data_name.startswith('_'):
+            continue
+        states_found = any(state.get('display', {}).get('icon', {}).get('character') for state in states)
+        states_found = states_found or any(state.get('ref') for state in states)
+        default_state = [state for state in states if state.get('default') is True]
+        default_state = states[0] if not default_state else default_state[0]
+        default_state_ref = default_state.get('ref')
+        # TODO: Recursive references (or build a stack set)
+        if default_state_ref:
+            data['']
+        character = data_value['display']['icon']['character']
+        data.setdefault('_symbols', {}).setdefault(character,[]).append(data_value['index'])
+
+
 def load_tiles(game_state, path=None):
     tiles = load_yaml_data(name='tiles', path=path)
     game_state['tiles'] = tiles
@@ -156,14 +174,4 @@ def load_yaml_data(name, path=None):
         #
         # TODO: Create a Map DSL to eliminate any randomness on
         # pre-generated maps for symbols with multiple options
-        data['_symbols'] = {}
-        for data_name, data_value in data.items():
-            if data_name == 'default':
-                continue
-            elif data_name.startswith('_'):
-                continue
-            elif not data_value.get('display', {}).get('icon', {}).get('character'):
-                continue
-            character = data_value['display']['icon']['character']
-            data['_symbols'].setdefault(character,[]).append(data_value['index'])
     return data

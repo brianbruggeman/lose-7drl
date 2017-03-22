@@ -18,23 +18,6 @@ from .utils.algorithms.pathing import get_neighbors, create_dijkstra_map
 logger = get_logger(__name__)
 
 
-def initialize_game(initial_seed=None, debug=None):
-    game_state = initialize_game_state(initial_seed=initial_seed, debug=debug)
-    initialize_visual_library(game_state)
-    game_state = create_windows(game_state)
-    return game_state
-
-
-def initialize_visual_library(game_state):
-    package_path = game_state['package-path']
-
-    # Setup Font
-    font_filename = 'game-font.png'
-    font_path = os.path.join(package_path, 'data', 'assets', font_filename)
-    font_flags = tcod.FONT_LAYOUT_ASCII_INROW
-    tcod.console_set_custom_font(font_path, flags=font_flags, nb_char_horiz=0, nb_char_vertic=0)
-
-
 def check_for_player_action(game_state):
     action_fields = ['character-action', 'character-movement']
     round_updates = game_state.get('round-updates', {})
@@ -55,6 +38,22 @@ def check_for_dirty_game_state(game_state):
     game_state_is_dirty = check_for_player_action(game_state) or False
     game_state_is_dirty = game_state_is_dirty or check_for_level_updates(game_state)
     return game_state_is_dirty
+
+
+def initialize_game(initial_seed=None, debug=None):
+    game_state = initialize_game_state(initial_seed=initial_seed, debug=debug)
+    initialize_visual_library(game_state)
+    return game_state
+
+
+def initialize_visual_library(game_state):
+    package_path = game_state['package-path']
+
+    # Setup Font
+    font_filename = 'game-font.bmp'
+    font_path = os.path.join(package_path, 'data', 'assets', font_filename)
+    font_flags = tcod.FONT_LAYOUT_ASCII_INROW
+    tcod.console_set_custom_font(font_path, flags=font_flags, nb_char_horiz=0, nb_char_vertic=0)
 
 
 def mob_combat(game_state):
@@ -90,7 +89,8 @@ def mob_combat(game_state):
 
 def play_game(game_state):
     first_round = True
-    while not tcod.console_is_window_closed():
+    keep_playing = tcod.console_is_window_closed()
+    while not keep_playing:
         # render the screen
         setup_round(game_state)
         if first_round is True:
@@ -126,7 +126,9 @@ def play_game(game_state):
         player_health = game_state.get('player-health')
         if player_health is not None and player_health <= 0:
             death_menu(game_state)
-            break
+            keep_playing = False
+        else:
+            keep_playing = tcod.console_is_window_closed()
     return game_state
 
 
@@ -154,6 +156,8 @@ def start_game(options):
     initial_seed = options['--seed']
     debug = options['--debug']
     game_state = initialize_game(initial_seed=initial_seed, debug=debug)
+    windows = create_windows(game_state)
+    game_state['windows'] = windows
     # logger.trace({'game_state': game_state})
     continue_playing = True
     while continue_playing:
@@ -164,9 +168,10 @@ def start_game(options):
         }
         choice = main_menu(game_state, options)
         if choice == 'p':  # new game
-            game_state = play_game(game_state)
+            play_game(game_state)
             game_state = initialize_game(initial_seed=initial_seed, debug=debug)
-            continue
+            game_state['windows'] = windows
+            choice = main_menu(game_state, options)
         elif choice == 'o':  # options
             game_options = {
                 'K': 'Keyboard Bindings',
@@ -177,7 +182,6 @@ def start_game(options):
                 game_option_choice, menu_window = menu('Game Options', game_options, 24, game_state)
                 if game_option_choice in ['x', None]:  # quit
                     break
-            continue
         elif choice in ['x', 'escape', None]:  # quit
             continue_playing = False
             break
